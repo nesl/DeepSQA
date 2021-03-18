@@ -1,8 +1,7 @@
+
 # DeepSQA
 **Codes for paper:**
-[DeepSQA: Understanding Sensor Data via Question Answering(IoTDI 2021)](https://github.com/TianweiXing/DL_for_sensing_complex_env)
-
-Public Github repo for DeepSQA can be found [here](https://github.com/TianweiXing/DL_for_sensing_complex_env)
+[DeepSQA: Understanding Sensor Data via Question Answering(IoTDI 2021)](https://github.com/nesl/DeepSQA/blob/master/DeepSQA-paper.pdf)
 
 Raw sensory data "OPPORTUNITY" can be found [here](https://archive.ics.uci.edu/ml/datasets/opportunity+activity+recognition)
 
@@ -16,7 +15,7 @@ Raw sensory data "OPPORTUNITY" can be found [here](https://archive.ics.uci.edu/m
 
 ### Create folders to perform simulation:
 ```
-mkdir sqa_data trained_models result iotdi_fig
+mkdir sqa_data trained_models result source_dataset
 ```
 
 
@@ -24,7 +23,6 @@ mkdir sqa_data trained_models result iotdi_fig
 
 -  __source_dataset:__ 
 	- __opportunity:__ put raw sensory data "OPPORTUNITY" here.
-	- __opportunity.ipynb:__ script for analyzing opportunity dataset.
 -  __sqa_data_gen:__ 
 	- __question_family.ipynb:__ specifies all the question family templates used in generation
 	- __question_family.json:__ stores the question family info in a json file.
@@ -36,7 +34,6 @@ mkdir sqa_data trained_models result iotdi_fig
 	- __sqa_gen_engine.py:__ question generation machine. Main program
 	- __synonym_change.py:__ change words in generated question to increase linguistic variations.
 	- __train_opp_model-single.ipynb:__ trains DL models on opp dataset natively. Trained model used in Neural Symbolic method.
-	- __word_idx__
 
 -  __preprocess_data:__ 
 	- create folders: ``mkdir embeddings glove``
@@ -57,80 +54,21 @@ mkdir sqa_data trained_models result iotdi_fig
 	- __analyze_result.py:__ class for analyzing generated .pkl result.
 
 
-- create folders: ``mkdir sqa_data trained_models result iotdi_fig``
+- create folders: ``mkdir sqa_data trained_models result ``
 -  __sqa_data:__ stores all the generated SQA data in json format, and aslo preprocessed data in .pkl and .npz format.
 -  __trained_models:__ stores all the trained models. Models trained from a single simulation are stored in a single folder. e.g. "opp_sim1".
 - __result:__ stores simulation result in .pkl form. e.g. "opp_sim1.pkl"
-- __iotdi_fig:__ stores the generated figures (by __fig_plot.ipynb__) for IoTDI paper
 
 ## Running experiments:
-- __sqa_generation.ipynb:__ scripts for generating the original SQA dataset. 
-- __data_preprocessing.ipynb:__ scripts for preprocess the original SQA dataset for training.
-- __run_baselines_cuda0.py:__ codes for training either mac or baselines models.
-- __analyze_result.ipynb:__ general observation on sqa model performance, and also performance on prime dataset
-- __check_consistency.ipynb:__ checking answer consistency against linguisic variations
-- __fig_plot.ipynb:__ plots all the figures in IoTDI paper.
+- __sqa_generation.py:__ scripts for generating the original SQA dataset. 
+- __data_preprocessing.py:__ scripts for preprocess the original SQA dataset for training.
+- __run_baselines&mac.py:__ codes for training either mac or baselines models.
+- modify the parameters in the scripts for different simulation settings.
 
 
 
-## About SQA dataset generation:
+### Acknowledgement:
 
-#### Dataset saving format:
-- JSON files for Questions.
-    - question	
-	- question_family_index	
-	- question_index	
-	- answer	
-	- context_index	
-	- context_source_file	
-	- context_start_point	
-	- split (train, val, test)
-- The raw sensory scene is not saved here. (need to get extracted when using it)
+This research was sponsored by the U.S. Army Research Laboratory and the U.K. Ministry of Defence under Agreement # W911NF-16-3-0001. The views and conclusions contained in this document arethose of the authors and should not be interpreted as representing the official policies, either expressed or implied, of the U.S. Army Research Laboratory, the U.S. Government, the U.K. Ministry of Defence or the U.K. Government. The U.S. and U.K. Governments are authorized to reproduce and distribute reprints for Government purposes notwithstanding any copyright notation hereon.
 
-#### SQA dataset generated from OPPORTUNITY:
-##### To get the Opportunity dataset: 
-- curl -O https://archive.ics.uci.edu/ml/machine-learning-databases/00226/OpportunityUCIDataset.zip
-- unzip the file into dataset folder.
-
-##### To use the generated SQA dataset: (staled) 
-- Download: https://drive.google.com/file/d/1AD7lVzPTI1o7oucpVveYWQCzujsVd6c2/view?usp=sharing
-- unzip the "sqa_all_1800_450.json.zip" in generated_sqa_data folder. 
-
-##### Generated data summary: 
-- Time window is 1800 (30Hz x 60s), stride = 450.
-- 16 question families
-- 41186718 questions generated (2172758 unique)
-- Question length: 5, 17.49, 28 (min, avg, max)
-- Unique scenes: 1428
-- Average num of questions per scene : 28842.23
-- Unique answers: 1664 (39 if ignore duration count)
-
-
-#### SQA DataGen Engine:
-
-**Input:**
-- Sensory data. (of any form)
-- Sensory annotation. (encoding, also need a label decoder)
-- Parameters: Window length (60s in Opportunity), stride length.
-
-**Output:**
-(Dump all data into a single json file)
-- Questions json file.
-	- Information of the generated data.
-	- A list containing all questions.
-
-##### **Inside the Engine** 
-
-A file for all question families: "question_family.json"
-
-Each question family includes:
-- Multiple forms of possible texts.
-
-For each question family:
-- A functional program is associated with it. (composed of atomic functions in function catalog.)
-- A python script for running the program and generating questions and answers in Natural Language form. 
-
-
-----
-#### Trained models can be accessed [here](https://drive.google.com/drive/folders/1CJLuGHvCbRasqrAG0O_jQaW5KrFwopdC?usp=sharing)
-
+For more inforamtion, contact Tianwei Xing at:  [twxing@ucla.edu](mailto:twxing@ucla.edu)
